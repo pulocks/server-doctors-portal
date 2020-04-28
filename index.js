@@ -35,14 +35,14 @@ app.get('/appointments', (req, res) => {
     });  
 })
 
-app.get('/views/:id', (req, res) => {
-    
-    const id = req.params.id;
+app.get('/views/:key', (req, res) => {
+
+    const key = req.params.key;
 
     client.connect(err => {
         const collection = client.db("doctorsPortal").collection("appointments");
-    
-        collection.find(id).toArray((err, documents) => {
+        
+        collection.find(key).toArray((err, documents) => {
             if(err) {
                 console.log(err);
             }
@@ -51,10 +51,9 @@ app.get('/views/:id', (req, res) => {
             }
             
         });
-        
+
     });  
 })
-
 
 app.post('/allAppointments', (req, res) => {
     const appointment = req.body;
