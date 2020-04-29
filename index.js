@@ -15,7 +15,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 app.get('/', (req, res) => {
     res.send('hello from server...');
-})
+});
 
 app.get('/appointments', (req, res) => {
     
@@ -35,14 +35,14 @@ app.get('/appointments', (req, res) => {
     });  
 })
 
-app.get('/views/:key', (req, res) => {
+app.get('/views/:id', (req, res) => {
 
-    const key = req.params.key;
+    const key = req.params.id;
 
     client.connect(err => {
         const collection = client.db("doctorsPortal").collection("appointments");
         
-        collection.find(key).toArray((err, documents) => {
+        collection.find({ id: {$eq: key}}).toArray((err, documents) => {
             if(err) {
                 console.log(err);
             }
@@ -51,9 +51,8 @@ app.get('/views/:key', (req, res) => {
             }
             
         });
-
     });  
-})
+});
 
 app.post('/allAppointments', (req, res) => {
     const appointment = req.body;
@@ -74,5 +73,5 @@ app.post('/allAppointments', (req, res) => {
     });  
 });
 
-const port = process.env.PORT || 4200;
-app.listen(port, () => console.log('Listening to port 4200...'));
+const PORT = process.env.PORT || 4200;
+app.listen(PORT, () => console.log('Listening to port 4200...'));
